@@ -11,11 +11,11 @@ router.post('/', function(req, res, next) {
 
   UserModel.findOne({ name }, function(err, user) {
     if (err || !user) {
-      return next(new Error('找不到用户'));
+      res.json({ success: false, message: '找不到用户' });
     } else {
       var isOk = bcrypt.compare(password, user.password);
       if (!isOk) {
-        return next(new Error('密码不对'))
+        res.json({ success: false, message: '密码不对' });
       }
 
       var authToken = user._id;

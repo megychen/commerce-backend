@@ -23,7 +23,7 @@ router.post('/', function(req, res, next) {
       user.password = bcrypt.hashSync(password, 10);
       user.save(function(err) {
         if (err) {
-          next(err);
+          res.json({ success: false, message: err });
         } else {
           res.send({success: true, message: '注册成功'});
         }
