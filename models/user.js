@@ -3,7 +3,11 @@ var Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
   name: String,
-  password: String
+  password: String,
+  isAdmin: {
+    type: Boolean,
+    default: false
+  }
 });
 
 const UserModel = mongoose.model('User', UserSchema);
