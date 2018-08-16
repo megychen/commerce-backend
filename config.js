@@ -1,3 +1,3 @@
 module.exports = {
-  cookieName: 'commerce_0812'
+  cookieName: 'commerce'
 }

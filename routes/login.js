@@ -27,7 +27,7 @@ router.post('/', function(req, res, next) {
       };
 
       res.cookie(config.cookieName, authToken, opts);
-      res.end();
+      res.json({ success: true, message: '登录成功', token: authToken });
     }
   });
 });

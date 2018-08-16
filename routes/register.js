@@ -8,16 +8,15 @@ router.post('/', function(req, res, next) {
   var name = req.body.name;
   var password = req.body.password;
   var rePass = req.body.rePass;
-  
+
   UserModel.findOne({ name }, function(err, user) {
     if (err || user) {
       res.send({ success: false, message: '此用户名已被注册' });
     } else {
       if (password !== rePass) {
-        //return next(new Error('两次密码不一致'));
-        res.send({success: false, message: '两次密码不一致'});
+        res.json({success: false, message: '两次密码不一致'});
       }
-    
+
       var user = new UserModel();
       user.name = name;
       user.password = bcrypt.hashSync(password, 10);
@@ -25,7 +24,7 @@ router.post('/', function(req, res, next) {
         if (err) {
           res.json({ success: false, message: err });
         } else {
-          res.send({success: true, message: '注册成功'});
+          res.json({success: true, message: '注册成功'});
         }
       });
     }
