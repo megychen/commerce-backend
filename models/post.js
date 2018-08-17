@@ -1,12 +1,14 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var ObjectId = Schema.ObjectId;
-
 var PostSchema = new Schema({
-  title: String,
+  title: {
+    type: String,
+    required: true
+  },
   content: String,
-  authorId: ObjectId,
+  author: String,
+  postLink: String,
   timestamp: String
 });
 

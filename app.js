@@ -8,12 +8,7 @@ var bodyParser = require('body-parser');
 var logger = require('morgan');
 
 var config = require('./config');
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var registerRouter = require('./routes/register');
-var loginRouter = require('./routes/login');
-var postsRouter = require('./routes/posts');
-var EntrepreneursRouter = require('./routes/entrepreneurs');
+var api = require('./route.api');
 
 var app = express();
 
@@ -29,12 +24,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser(config.cookieName));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/api/register', registerRouter);
-app.use('/api/login', loginRouter);
-app.use('/api/posts', postsRouter);
-app.use('/api/entrepreneurs', EntrepreneursRouter);
+app.use('/api', api);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -50,7 +40,7 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.format({
     json() {
-      res.send({error: err.toString()});
+      res.send({success: false, error: err.toString()});
     },
 
     html() {

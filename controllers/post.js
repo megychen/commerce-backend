@@ -2,63 +2,70 @@ var express = require('express');
 var router = express.Router();
 var PostModel = require('../models/post');
 
-// GET news api
-router.get('/', function(req, res) {
+module.exports.more = function(req, res, next) {
   PostModel.find({}, {}, function(err, posts) {
     if (err) {
-      res.json({ success: false, message: err });
+      next(err);
     } else {
-      res.json({postList: posts});
+      res.json({ success: true, postList: posts });
     }
   });
-});
+};
 
-//POST news api
-router.post('/', function(req, res, next) {
+module.exports.one = function(req, res, next) {
+  var id = req.params.id;
+
+  PostModel.findOne({ _id: id }, function(err, post) {
+    if (err) {
+      next(err);
+    } else {
+      res.json({ success: true, post });
+    }
+  });
+};
+
+module.exports.create = function(req, res, next) {
   var title = req.body.title;
   var content = req.body.content;
-  var authorId = req.body.authorId;
-  
+  var author = req.body.author;
+
   var post = new PostModel();
   post.title = title;
   post.content = content;
-  post.authorId = authorId;
+  post.author = author;
   post.timestamp = new Date().toLocaleString();
   post.save(function(err, doc) {
     if (err) {
-      res.json({ success: false, message: err });
+      next(err);
     } else {
       res.json({ success: true, message: '创建成功' });
     }
   });
-});
+};
 
-// PATCH news api
-router.patch('/', function(req, res, next) {
-  var id = req.body.id;
+module.exports.update = function(req, res, next) {
+  var id = req.params.id;
   var title = req.body.title;
   var content = req.body.content;
+  var author = req.body.author;
 
-  PostModel.findOneAndUpdate({ _id: id }, { title, content }, function(err) {
+  PostModel.findOneAndUpdate({ _id: id }, { title, content, author }, function(err) {
     if (err) {
-      res.json({ success: false, message: err });
+      next(err);
     } else {
       res.json({ success: true, message: '更新成功' });
     }
   });
-});
+};
 
-// DELETE news api
-router.delete('/', function(req, res, next) {
-  var id = req.body.id;
+module.exports.delete = function(req, res, next) {
+  var id = req.params.id;
 
   PostModel.deleteOne({ _id: id }, function(err) {
     if (err) {
-      res.json({ success: false, message: err });
+      next(err);
     } else {
       res.json({ success: true, message: '删除成功' });
     }
   })
-});
-
-module.exports = router;
+}
