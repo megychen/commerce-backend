@@ -46,18 +46,19 @@ module.exports.signin = function(req, res, next) {
 
       var authToken = {
         id: user._id,
-        name: user.name
+        name: user.name,
+        isAdmin: user.isAdmin
       };
 
-      var opts = {
-        path: '/',
-        maxAge: 1000 * 60 * 60 * 24 * 30, // cookie 有效期30天
-        signed: true,
-        httpOnly: true
-      };
+      // var opts = {
+      //   path: '/',
+      //   maxAge: 1000 * 60 * 60 * 24 * 30, // cookie 有效期30天
+      //   signed: true,
+      //   httpOnly: true
+      // };
 
-      res.cookie(config.cookieName, authToken, opts);
-      res.json({ success: true, message: '登录成功' });
+      // res.cookie(config.cookieName, authToken, opts);
+      res.json({ success: true, message: '登录成功', token: authToken });
     }
   });
 }

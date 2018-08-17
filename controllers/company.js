@@ -28,11 +28,17 @@ module.exports.create = function(req, res, next) {
   var title = req.body.title;
   var content = req.body.content;
   var author = req.body.author;
+  var postLink = req.body.postLink;
+
+  var host = req.host;
+  var filePath = req.protocol + "://" + host + '/' + req.file.path;
 
   var company = new CompanyModel();
   company.title = title;
   company.content = content;
   company.author = author;
+  post.postLink = postLink;
+  post.postImg = filePath;
   company.timestamp = new Date().toLocaleString();
   company.save(function(err, doc) {
     if (err) {
@@ -47,12 +53,13 @@ module.exports.update = function(req, res, next) {
   var title = req.body.title;
   var content = req.body.content;
   var author = req.body.author;
+  var postLink = req.body.postLink;
 
-  post.title = title;
-  post.content = content;
-  post.author = author;
+  var host = req.host;
+  var filePath = req.protocol + "://" + host + '/' + req.file.path;
+  var postImg = filePath
 
-  CompanyModel.findOneAndUpdate({ _id: id }, { title, content, author }, function(err) {
+  CompanyModel.findOneAndUpdate({ _id: id }, { title, content, author, postLink, postImg }, function(err) {
     if (err) {
       next(err);
     } else {

@@ -1,13 +1,18 @@
+var config =  require('../config');
+var UserModel = require('../models/user');
+
 module.exports.adminRequired = (req, res, next) => {
   // 此处需要传user_id做判断
-  if (!req.user) {
+  var authToken = req.cookies[config.cookieName] || '';
+
+  if (!authToken) {
     var err = new Error('需要登录');
     err.status = 403;
     next(err);
     return;
   }
 
-  if (!req.user.isAdmin) {
+  if (!authToken.isAdmin) {
     var err = new Error('需要管理员权限');
     err.status = 403;
     next(err);

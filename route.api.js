@@ -3,6 +3,9 @@ var auth = require('./middlewares/auth');
 var post = require('./controllers/post');
 var user = require('./controllers/user');
 var company = require('./controllers/company');
+var multer  = require('multer');
+var postsUpload = multer({ dest: 'uploads/posts/' });
+var companyUpload = multer({ dest: 'uploads/company/' });
 
 var router = express.Router();
 
@@ -13,10 +16,10 @@ router.get('/posts', post.more);
 router.get('/posts/:id', post.one);
 
 /* POST create post */
-router.post('/posts', auth.adminRequired, post.create);
+router.post('/posts', auth.adminRequired, postsUpload.single('postImg'), post.create);
 
 /* PATCH edit post */
-router.patch('/posts/:id', auth.adminRequired, post.update);
+router.patch('/posts/:id', auth.adminRequired, postsUpload.single('postImg'), post.update);
 
 /* DELETE edit post */
 router.delete('/posts/:id', auth.adminRequired, post.delete);
@@ -28,10 +31,10 @@ router.get('/companies', post.more);
 router.get('/companies/:id', company.one);
 
 /* POST create company */
-router.post('/companies', auth.adminRequired, company.create);
+router.post('/companies', auth.adminRequired, companyUpload.single('postImg'), company.create);
 
 /* PATCH edit company */
-router.patch('/companies/:id', auth.adminRequired, company.update);
+router.patch('/companies/:id', auth.adminRequired, companyUpload.single('postImg'), company.update);
 
 /* DELETE edit company */
 router.delete('/companies/:id', auth.adminRequired, company.delete);

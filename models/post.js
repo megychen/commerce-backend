@@ -9,6 +9,7 @@ var PostSchema = new Schema({
   content: String,
   author: String,
   postLink: String,
+  postImg: String,
   timestamp: String
 });
 
