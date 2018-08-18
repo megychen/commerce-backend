@@ -25,7 +25,7 @@ router.patch('/posts/:id', auth.adminRequired, postsUpload.single('postImg'), po
 router.delete('/posts/:id', auth.adminRequired, post.delete);
 
 /* GET companies lists */
-router.get('/companies', post.more);
+router.get('/companies', company.more);
 
 /* GET one company */
 router.get('/companies/:id', company.one);

@@ -29,17 +29,18 @@ module.exports.create = function(req, res, next) {
   var content = req.body.content;
   var author = req.body.author;
   var postLink = req.body.postLink;
+  var timestamp = req.body.timestamp;
 
-  var host = req.host;
+  var host = req.hostname;
   var filePath = req.protocol + "://" + host + '/' + req.file.path;
 
   var company = new CompanyModel();
   company.title = title;
   company.content = content;
   company.author = author;
-  post.postLink = postLink;
-  post.postImg = filePath;
-  company.timestamp = new Date().toLocaleString();
+  company.postLink = postLink;
+  company.postImg = filePath;
+  company.timestamp = timestamp;
   company.save(function(err, doc) {
     if (err) {
       next(err);
@@ -50,6 +51,7 @@ module.exports.create = function(req, res, next) {
 };
 
 module.exports.update = function(req, res, next) {
+  var id = req.params.id;
   var title = req.body.title;
   var content = req.body.content;
   var author = req.body.author;

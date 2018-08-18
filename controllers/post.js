@@ -29,8 +29,9 @@ module.exports.create = function(req, res, next) {
   var content = req.body.content;
   var author = req.body.author;
   var postLink = req.body.postLink;
+  var timestamp = req.body.timestamp;
 
-  var host = req.host;
+  var host = req.hostname;
   var filePath = req.protocol + "://" + host + '/' + req.file.path;
 
   var post = new PostModel();
@@ -39,7 +40,7 @@ module.exports.create = function(req, res, next) {
   post.author = author;
   post.postLink = postLink;
   post.postImg = filePath;
-  post.timestamp = new Date().toLocaleString();
+  post.timestamp = timestamp.toLocaleString();
   post.save(function(err, doc) {
     if (err) {
       next(err);
