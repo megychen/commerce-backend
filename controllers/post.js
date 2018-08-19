@@ -3,13 +3,18 @@ var router = express.Router();
 var PostModel = require('../models/post');
 
 module.exports.more = function(req, res, next) {
+  var pageSize = parseInt(req.query.pageSize) || 10;
+  var pageNo = parseInt(req.query.pageNo) || 1;
+
   PostModel.find({}, {}, function(err, posts) {
     if (err) {
       next(err);
     } else {
       res.json({ success: true, postList: posts });
     }
-  });
+  }).sort({'timestamp':-1})
+    .skip(pageNo * pageSize)
+    .limit(pageSize);
 };
 
 module.exports.one = function(req, res, next) {

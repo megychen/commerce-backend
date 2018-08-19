@@ -3,13 +3,17 @@ var router = express.Router();
 var EntrepreneurModel = require('../models/entrepreneur');
 
 module.exports.more = function(req, res, next) {
+  var pageSize = parseInt(req.query.pageSize) || 10;
+  var pageNo = parseInt(req.query.pageNo) || 1;
+
   EntrepreneurModel.find({}, {}, function(err, entrepreneurs) {
     if (err) {
       next(err);
     } else {
       res.json({ success: true, entrepreneurList: entrepreneurs });
     }
-  });
+  }).skip(pageNo * pageSize)
+    .limit(pageSize);
 };
 
 module.exports.one = function(req, res, next) {
