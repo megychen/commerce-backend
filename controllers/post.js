@@ -31,8 +31,7 @@ module.exports.create = function(req, res, next) {
   var postLink = req.body.postLink;
   var timestamp = req.body.timestamp;
 
-  var host = req.hostname;
-  var filePath = req.protocol + "://" + host + '/' + req.file.path;
+  var filePath = '/' + req.file.path;
 
   var post = new PostModel();
   post.title = title;

@@ -30,8 +30,7 @@ module.exports.create = function(req, res, next) {
   var company = req.body.company;
   var description = req.body.description;
 
-  var host = req.hostname;
-  var filePath = req.protocol + "://" + host + '/' + req.file.path;
+  var filePath = '/' + req.file.path;
 
   var entrepreneur = new EntrepreneurModel();
   entrepreneur.name = name;
