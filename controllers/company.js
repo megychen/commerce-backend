@@ -10,11 +10,11 @@ module.exports.more = function(req, res, next) {
     .sort({'timestamp': -1})
     .skip((pageNo - 1) * pageSize)
     .limit(pageSize)
-    .exec(function(err, posts) {
+    .exec(function(err, companies) {
       if (err) {
         next(err);
       } else {
-        res.json({ success: true, companyList: companys });
+        res.json({ success: true, companyList: companies });
       }
     });
 };
