@@ -7,7 +7,7 @@ module.exports.more = function(req, res, next) {
   var pageNo = parseInt(req.query.pageNo) || 1;
 
   EntrepreneurModel.find({})
-    .skip(pageNo * pageSize)
+    .skip((pageNo - 1) * pageSize)
     .limit(pageSize)
     .exec(function(err, entrepreneurs) {
       if (err) {

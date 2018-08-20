@@ -8,7 +8,7 @@ module.exports.more = function(req, res, next) {
 
   CompanyModel.find({})
     .sort({'timestamp': -1})
-    .skip(pageNo * pageSize)
+    .skip((pageNo - 1) * pageSize)
     .limit(pageSize)
     .exec(function(err, posts) {
       if (err) {
