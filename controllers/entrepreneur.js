@@ -6,14 +6,16 @@ module.exports.more = function(req, res, next) {
   var pageSize = parseInt(req.query.pageSize) || 10;
   var pageNo = parseInt(req.query.pageNo) || 1;
 
-  EntrepreneurModel.find({}, {}, function(err, entrepreneurs) {
-    if (err) {
-      next(err);
-    } else {
-      res.json({ success: true, entrepreneurList: entrepreneurs });
-    }
-  }).skip(pageNo * pageSize)
-    .limit(pageSize);
+  EntrepreneurModel.find({})
+    .skip(pageNo * pageSize)
+    .limit(pageSize)
+    .exec(function(err, entrepreneurs) {
+      if (err) {
+        next(err);
+      } else {
+        res.json({ success: true, entrepreneurList: entrepreneurs });
+      }
+    });
 };
 
 module.exports.one = function(req, res, next) {
