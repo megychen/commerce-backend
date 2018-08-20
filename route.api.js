@@ -9,6 +9,9 @@ var postsUpload = multer({ dest: 'uploads/posts/' });
 var companyUpload = multer({ dest: 'uploads/company/' });
 var entrepreneurUpload = multer({ dest: 'uploads/entrepreneur/' });
 
+var image= require('./controllers/image');
+var imageUpload = multer({ dest: 'uploads/markdown/' });
+
 var router = express.Router();
 
 /* GET posts lists */
@@ -61,5 +64,8 @@ router.post('/signup', user.signup);
 
 /* POST signin user */
 router.post('/signin', user.signin);
+
+/* POST image */
+router.post('/image', auth.adminRequired, imageUpload.single('imgFile'), image.upload)
 
 module.exports = router;
