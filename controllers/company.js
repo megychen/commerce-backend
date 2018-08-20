@@ -38,7 +38,7 @@ module.exports.create = function(req, res, next) {
   var postLink = req.body.postLink;
   var timestamp = req.body.timestamp;
 
-  var filePath = '/' + req.file.path;
+  var filePath = req.file ? '/' + req.file.path : ''
 
   var company = new CompanyModel();
   company.title = title;
@@ -62,9 +62,9 @@ module.exports.update = function(req, res, next) {
   var content = req.body.content;
   var author = req.body.author;
   var postLink = req.body.postLink;
+  var currentImg = req.body.currentImg;
 
-  var host = req.host;
-  var filePath = req.protocol + "://" + host + '/' + req.file.path;
+  var filePath = req.file ? '/' + req.file.path : currentImg;
   var postImg = filePath
 
   CompanyModel.findOneAndUpdate({ _id: id }, { title, content, author, postLink, postImg }, function(err) {
