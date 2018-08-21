@@ -5,9 +5,16 @@ var PostModel = require('../models/post');
 module.exports.more = function(req, res, next) {
   var pageSize = parseInt(req.query.pageSize) || 10;
   var pageNo = parseInt(req.query.pageNo) || 1;
+  var search = req.query.search,
+      query
 
-  PostModel.find({})
-    .sort({'timestamp': -1})
+  if (search) {
+    query = PostModel.find({'title': search});
+  } else {
+    query = PostModel.find({});
+  }
+
+  query.sort({'timestamp': -1})
     .skip((pageNo - 1) * pageSize)
     .limit(pageSize)
     .exec(function(err, posts) {
