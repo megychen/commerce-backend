@@ -6,10 +6,11 @@ module.exports.more = function(req, res, next) {
   var pageSize = parseInt(req.query.pageSize) || 10;
   var pageNo = parseInt(req.query.pageNo) || 1;
   var search = req.query.search,
-      query
+      query,
+      creteria = { title: search };
 
   if (search) {
-    query = PostModel.find({'title': search});
+    query = PostModel.find(creteria);
   } else {
     query = PostModel.find({});
   }
