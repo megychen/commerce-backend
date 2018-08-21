@@ -7,7 +7,8 @@ module.exports.more = function(req, res, next) {
   var pageNo = parseInt(req.query.pageNo) || 1;
   var search = req.query.search,
       query,
-      creteria = { title: search };
+      pattern = new RegExp(search,'i'),
+      creteria = { title: pattern };
 
   if (search) {
     query = PostModel.find(creteria);
