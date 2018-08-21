@@ -50,15 +50,61 @@ module.exports.signin = function(req, res, next) {
         isAdmin: user.isAdmin
       };
 
-      // var opts = {
-      //   path: '/',
-      //   maxAge: 1000 * 60 * 60 * 24 * 30, // cookie 有效期30天
-      //   signed: true,
-      //   httpOnly: true
-      // };
-
-      // res.cookie(config.cookieName, authToken, opts);
       res.json({ success: true, message: '登录成功', token: authToken });
     }
   });
+};
+
+module.exports.more = function(req, res, next) {
+  var pageSize = parseInt(req.query.pageSize) || 10;
+  var pageNo = parseInt(req.query.pageNo) || 1;
+
+  UserModel.find({})
+    .skip((pageNo - 1) * pageSize)
+    .limit(pageSize)
+    .exec(function(err, users) {
+      if (err) {
+        next(err);
+      } else {
+        res.json({ success: true, userList: users });
+      }
+    });
+};
+
+module.exports.update = function(req, res, next) {
+  var id = req.params.id;
+  var isAdmin = req.body.isAdmin;
+
+  UserModel.findOneAndUpdate({ _id: id }, { isAdmin }, function(err) {
+    if (err) {
+      next(err);
+    } else {
+      res.json({ success: true, message: '更新成功' });
+    }
+  })
+};
+
+module.exports.reset = function(req, res, next) {
+  var id = req.params.id;
+  var newPass = req.body.newPass;
+  var newRepass = req.body.newRepass;
+
+  if (newPass !== newRepass) {
+    res.json({success: false, message: '两次密码不一致'});
+  }
+
+  UserModel.findOne({ _id: id }, function(err, user) {
+    if (err) {
+      next(err);
+    } else {
+      user.password = bcrypt.hashSync(newPass, 10);
+      user.save(function(err) {
+        if (err) {
+          next(err);
+        } else {
+          res.json({success: true, message: '更新成功'});
+        }
+      });
+    }
+  })
 }

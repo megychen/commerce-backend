@@ -59,6 +59,15 @@ router.patch('/entrepreneurs/:id', auth.adminRequired, entrepreneurUpload.single
 /* DELETE edit entrepreneur */
 router.delete('/entrepreneurs/:id', auth.adminRequired, entrepreneur.delete);
 
+/* GET user lists */
+router.get('/users', auth.adminRequired, user.more);
+
+/* PATCH edit user */
+router.patch('/users/:id', auth.adminRequired, user.update);
+
+/* PATCH edit user password */
+router.patch('/users/:id/reset', auth.adminRequired, user.reset);
+
 /* POST signup user */
 router.post('/signup', user.signup);
 
