@@ -12,12 +12,12 @@ module.exports.adminRequired = (req, res, next) => {
     return;
   }
 
-  // if (!authToken.isAdmin) {
-  //   var err = new Error('需要管理员权限');
-  //   err.status = 403;
-  //   next(err);
-  //   return;
-  // }
+  if (!authToken.isAdmin) {
+    var err = new Error('需要管理员权限');
+    err.status = 403;
+    next(err);
+    return;
+  }
 
   next();
 };

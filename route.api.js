@@ -75,6 +75,6 @@ router.post('/signup', user.signup);
 router.post('/signin', user.signin);
 
 /* POST image */
-router.post('/image', auth.adminRequired, imageUpload.single('imgFile'), image.upload)
+router.post('/image', imageUpload.single('imgFile'), image.upload)
 
 module.exports = router;
