@@ -6,16 +6,18 @@ module.exports.more = function(req, res, next) {
   var pageSize = parseInt(req.query.pageSize) || 10;
   var pageNo = parseInt(req.query.pageNo) || 1;
 
-  EntrepreneurModel.find({})
+  EntrepreneurModel.countDocuments({}, function(err, count) {
+    EntrepreneurModel.find({})
     .skip((pageNo - 1) * pageSize)
     .limit(pageSize)
     .exec(function(err, entrepreneurs) {
       if (err) {
         next(err);
       } else {
-        res.json({ success: true, entrepreneurList: entrepreneurs });
+        res.json({ success: true, entrepreneurList: entrepreneurs, total: count });
       }
     });
+  });
 };
 
 module.exports.one = function(req, res, next) {

@@ -16,16 +16,18 @@ module.exports.more = function(req, res, next) {
     query = PostModel.find({});
   }
 
-  query.sort({'timestamp': -1})
+  PostModel.countDocuments(creteria, function(err, count) {
+    query.sort({'timestamp': -1})
     .skip((pageNo - 1) * pageSize)
     .limit(pageSize)
     .exec(function(err, posts) {
       if (err) {
         next(err);
       } else {
-        res.json({ success: true, postList: posts });
+        res.json({ success: true, postList: posts, total: count });
       }
     });
+  });
 };
 
 module.exports.one = function(req, res, next) {

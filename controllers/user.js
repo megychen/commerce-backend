@@ -59,16 +59,18 @@ module.exports.more = function(req, res, next) {
   var pageSize = parseInt(req.query.pageSize) || 10;
   var pageNo = parseInt(req.query.pageNo) || 1;
 
-  UserModel.find({})
+  UserModel.count({}, function(err, count) {
+    UserModel.find({})
     .skip((pageNo - 1) * pageSize)
     .limit(pageSize)
     .exec(function(err, users) {
       if (err) {
         next(err);
       } else {
-        res.json({ success: true, userList: users });
+        res.json({ success: true, userList: users, total: count });
       }
     });
+  });
 };
 
 module.exports.update = function(req, res, next) {

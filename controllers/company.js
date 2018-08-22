@@ -6,7 +6,8 @@ module.exports.more = function(req, res, next) {
   var pageSize = parseInt(req.query.pageSize) || 10;
   var pageNo = parseInt(req.query.pageNo) || 1;
 
-  CompanyModel.find({})
+  CompanyModel.countDocuments({}, function(err, count) {
+    CompanyModel.find({})
     .sort({'timestamp': -1})
     .skip((pageNo - 1) * pageSize)
     .limit(pageSize)
@@ -14,9 +15,10 @@ module.exports.more = function(req, res, next) {
       if (err) {
         next(err);
       } else {
-        res.json({ success: true, companyList: companies });
+        res.json({ success: true, companyList: companies, total: count });
       }
     });
+  });
 };
 
 module.exports.one = function(req, res, next) {
