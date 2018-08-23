@@ -59,7 +59,7 @@ module.exports.more = function(req, res, next) {
   var pageSize = parseInt(req.query.pageSize) || 10;
   var pageNo = parseInt(req.query.pageNo) || 1;
 
-  UserModel.count({}, function(err, count) {
+  UserModel.countDocuments({}, function(err, count) {
     UserModel.find({})
     .skip((pageNo - 1) * pageSize)
     .limit(pageSize)
