@@ -63,6 +63,8 @@ module.exports.update = function(req, res, next) {
   var company = req.body.company;
   var description = req.body.description;
   var currentImg = req.body.currentImg;
+  var timestamp = req.body.timestamp || new Date();
+  timestamp = timestamp.toLocaleString().substr(0, 10).replace(',', '');
 
   var filePath = req.file ? '/' + req.file.path : currentImg;
   var avatar = filePath
