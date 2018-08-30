@@ -79,7 +79,7 @@ module.exports.update = function(req, res, next) {
   var filePath = req.file ? '/' + req.file.path : currentImg;
   var postImg = filePath
 
-  PostModel.findOneAndUpdate({ _id: id }, { title, content, author, postLink, postImg }, function(err) {
+  PostModel.findOneAndUpdate({ _id: id }, { title, content, author, postLink, postImg, timestamp }, function(err) {
     if (err) {
       next(err);
     } else {
