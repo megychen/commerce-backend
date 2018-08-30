@@ -48,7 +48,7 @@ module.exports.create = function(req, res, next) {
   company.author = author;
   company.postLink = postLink;
   company.postImg = filePath;
-  company.timestamp = timestamp.toLocaleString().substr(0, 9);
+  company.timestamp = timestamp.toLocaleString().substr(0, 10).replace(',', '');
   company.save(function(err, doc) {
     if (err) {
       next(err);
