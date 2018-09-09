@@ -68,6 +68,9 @@ router.patch('/users/:id', auth.adminRequired, user.update);
 /* PATCH edit user password */
 router.patch('/users/:id/reset', auth.adminRequired, user.reset);
 
+/* GET user information */
+router.post('/auth', user.auth);
+
 /* POST signup user */
 router.post('/signup', user.signup);
 
