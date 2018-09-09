@@ -4,6 +4,18 @@ var bcrypt = require('bcrypt');
 var UserModel = require('../models/user');
 var config = require('../config');
 
+module.exports.auth = function(req, res, next) {
+  var id = req.query.id
+
+  UserModel.findOne({ _id: id }, function(err, user) {
+    if (err) {
+      next(err);
+    } else {
+      res.json({ success: true, user });
+    }
+  });
+}
+
 module.exports.signup = function(req, res, next) {
   var name = req.body.name;
   var password = req.body.password;
