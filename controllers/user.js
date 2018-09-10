@@ -5,7 +5,8 @@ var UserModel = require('../models/user');
 var config = require('../config');
 
 module.exports.auth = function(req, res, next) {
-  var id = req.query.id
+  var id = req.params.id
+  console.log('id', id);
 
   UserModel.findOne({ _id: id }, function(err, user) {
     if (err) {
